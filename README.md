@@ -86,28 +86,6 @@
 ### 3. JavaScript-блокировка (content.js)
 MutationObserver отслеживает изменения DOM в реальном времени и удаляет рекламные элементы, которые появляются динамически.
 
-## 📁 Структура проекта
-
-GarticAdBlocker/
-├── Chrome/ # Для Google Chrome (Manifest V3)
-│ ├── manifest.json
-│ ├── background.js
-│ ├── content.js
-│ ├── styles.css
-│ ├── rules.json
-│ └── icon.png
-├── Edge/ # Для Microsoft Edge (Manifest V3)
-├── Yandex/ # Для Яндекс Браузера (Manifest V3)
-├── Firefox/ # Для Mozilla Firefox (Manifest V2)
-│ ├── manifest.json
-│ ├── background.js
-│ ├── content.js
-│ ├── styles.css
-│ └── icon.png
-├── Opera/ # Для Opera (Manifest V2)
-└── README.md
-
-
 ## 🔧 Добавление новых рекламных доменов
 
 Если вы обнаружили новую рекламу, которую расширение не блокирует:
