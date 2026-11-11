@@ -4,7 +4,7 @@
   
   <!-- Бейджи -->
   <p>
-    <a href="https://github.com/demon64k/GarticPhoneAdBlocker/releases"><img src="https://img.shields.io/github/v/release/demon64k/GarticPhoneAdBlocker?label=Версия&color=7aa2f7&style=for-the-badge" alt="Version"></a>
+    <a <img src="https://img.shields.io/github/v/release/demon64k/GarticPhoneAdBlocker?label=Версия&color=7aa2f7&style=for-the-badge" alt="Version"></a>
     <a href="https://github.com/demon64k/GarticPhoneAdBlocker/blob/main/LICENSE"><img src="https://img.shields.io/github/license/demon64k/GarticPhoneAdBlocker?color=f38ba8&style=for-the-badge" alt="License"></a>
     <img src="https://img.shields.io/badge/Доменов_в_черном_списке-250+-a6e3a1?style=for-the-badge" alt="Domains">
     <img src="https://img.shields.io/badge/Manifest-V2_%26_V3-f9e2af?style=for-the-badge" alt="Manifest">
