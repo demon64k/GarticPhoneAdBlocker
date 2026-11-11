@@ -122,4 +122,3 @@
   <p>Сделано с ❤️ и 🍪 для игроков GarticPhone</p>
   <p><sub>© 2026 demon64k. Распространяется под лицензией <a href="https://github.com/demon64k/GarticPhoneAdBlocker/blob/main/LICENSE">MIT</a>.</sub></p>
 </div>
-```
