@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "GarticPhone AdBlocker - Ultra",
+  "version": "2.0",
+  "description": "Полная блокировка 250+ рекламных сетей на GarticPhone",
+  "permissions": [
+    "declarativeNetRequest",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.garticphone.com/*",
+    "*://*.gartic.io/*",
+    "*://*.gartic.com/*",
+    "*://*.gartic.com.br/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.garticphone.com/*",
+        "*://*.gartic.io/*",
+        "*://*.gartic.com/*",
+        "*://*.gartic.com.br/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}

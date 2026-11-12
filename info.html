@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О расширении - GarticPhone AdBlocker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: rgba(26, 27, 46, 0.95);
+            --bg-secondary: rgba(36, 37, 58, 0.85);
+            --bg-card: rgba(45, 46, 69, 0.7);
+            --text-primary: #ffffff;
+            --text-secondary: #c0c5de;
+            --accent-pink: #f38ba8;
+            --accent-yellow: #f9e2af;
+            --accent-green: #a6e3a1;
+            --accent-blue: #7aa2f7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.95) 0%, rgba(255, 217, 61, 0.95) 100%);
+            padding: 40px;
+            text-align: center;
+            color: #1a1b2e;
+            border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px; font-weight: 900; margin-bottom: 16px;
+            display: flex; align-items: center; justify-content: center; gap: 12px; letter-spacing: -0.5px;
+        }
+        .header h1 svg { width: 40px; height: 40px; stroke: #1a1b2e; }
+        .header p { font-size: 18px; font-weight: 700; margin-bottom: 24px; }
+
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.95); color: #1a1b2e; text-decoration: none;
+            border-radius: 24px; font-weight: 800; transition: all 0.3s;
+        }
+        .back-btn svg { width: 16px; height: 16px; stroke: #1a1b2e; }
+        .back-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+        .section {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 30px; margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .section h2 {
+            font-size: 24px; font-weight: 900; margin-bottom: 20px; color: var(--accent-yellow);
+            display: flex; align-items: center; gap: 12px; letter-spacing: -0.3px;
+        }
+        .section h2 svg { width: 28px; height: 28px; stroke: var(--accent-yellow); flex-shrink: 0; }
+        .section p { font-size: 16px; line-height: 1.8; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600; }
+
+        .section ul { list-style: none; padding-left: 0; }
+        .section ul li {
+            padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary); font-size: 15px; font-weight: 600;
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .section ul li:last-child { border-bottom: none; }
+        .section ul li::before {
+            content: ''; display: inline-block; width: 20px; height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a6e3a1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain; background-repeat: no-repeat; flex-shrink: 0; margin-top: 2px;
+        }
+        .section ul li strong { color: var(--text-primary); font-weight: 800; }
+        .section ul li a { color: var(--accent-blue); text-decoration: none; font-weight: 700; }
+        .section ul li a:hover { text-decoration: underline; }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 20px;
+        }
+
+        /* ОБЫЧНАЯ, ЭЛЕГАНТНАЯ АНИМАЦИЯ ДЛЯ КАРТОЧЕК */
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 24px 16px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(166, 227, 161, 0.15);
+            border-color: rgba(166, 227, 161, 0.4);
+        }
+
+        .stat-card .icon { width: 40px; height: 40px; margin: 0 auto 12px; stroke: var(--accent-green); }
+        .stat-card .number { font-size: 32px; font-weight: 900; color: var(--accent-green); margin-bottom: 8px; letter-spacing: -1px; }
+        .stat-card .label { font-size: 13px; color: var(--text-secondary); font-weight: 700; }
+
+        .domain-list {
+            max-height: 300px; overflow-y: auto; background: var(--bg-secondary); padding: 20px;
+            border-radius: 12px; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 13px; color: var(--text-secondary); line-height: 1.6; font-weight: 600;
+        }
+        .domain-list::-webkit-scrollbar { width: 8px; }
+        .domain-list::-webkit-scrollbar-track { background: var(--bg-primary); border-radius: 4px; }
+        .domain-list::-webkit-scrollbar-thumb { background: var(--accent-pink); border-radius: 4px; }
+
+        .footer { text-align: center; padding: 30px; color: var(--text-secondary); font-size: 14px; font-weight: 600; }
+        .footer a { color: var(--accent-pink); text-decoration: none; font-weight: 700; transition: color 0.3s; }
+        .footer a:hover { color: var(--accent-yellow); }
+        .footer-links { display: flex; justify-content: center; gap: 20px; margin-top: 12px; flex-wrap: wrap; }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 28px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                GarticPhone AdBlocker
+            </h1>
+            <p>Профессиональная блокировка рекламы для GarticPhone</p>
+            <a href="popup.html" class="back-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                </svg>
+                Вернуться в расширение
+            </a>
+        </div>
+
+        <div class="section">
+            <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                Статистика
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <div class="number">250+</div>
+                    <div class="label">Заблокированных доменов</div>
+                </div>
+                <div class="stat-card">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                    <div class="number">100%</div>
+                    <div class="label">Блокировка рекламы</div>
+                </div>
+                <div class="stat-card">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <div class="number">5</div>
+                    <div class="label">Поддерживаемых браузеров</div>
+                </div>
+                
+              
+                <div class="stat-card">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <div class="number">0ms</div>
+                    <div class="label">Влияние на скорость</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                Возможности
+            </h2>
+            <ul>
+                <li>Полная блокировка всей рекламы на garticphone.com</li>
+                <li>Поддержка всех региональных версий сайта</li>
+                <li>Блокировка на уровне сети (preventive)</li>
+                <li>Блокировка на уровне DOM (reactive)</li>
+                <li>Счетчик заблокированных запросов</li>
+                <li>Переключатель защиты в один клик</li>
+                <li>Минимальное потребление ресурсов</li>
+                <li>Не собирает личные данные</li>
+                <li>Открытый исходный код</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/>
+                </svg>
+                Заблокированные рекламные сети
+            </h2>
+            <p>Расширение блокирует запросы к следующим рекламным и трекинговым доменам:</p>
+            <div class="domain-list">
+                adinplay.com, vntsm.com, vntsm.io, googlesyndication.com, doubleclick.net, 
+                googleadservices.com, google-analytics.com, googletagmanager.com, taboola.com, 
+                outbrain.com, amazon-adsystem.com, facebook.com/tr, scorecardresearch.com, 
+                quantserve.com, popads.net, propellerads.com, revcontent.com, mgid.com, 
+                muslimhands.org, rubiconproject.com, pubmatic.com, criteo.com, inmobi.com, 
+                3lift.com, onetag-sys.com, liadm.com, bids.ws, tiktok.com, microsoft.com/insight,
+                azureedge.net, adnxs.com, openx.net, appnexus.com, xandr.com, smartadserver.com,
+                yieldmo.com, sharethrough.com, teads.tv, triplelift.com, gumgum.com, magnite.com,
+                lijit.com, spotxchange.com, freewheel.tv, exoclick.com, trafficjunky.com,
+                adcash.com, chitika.com, buysellads.com, adsterra.com, adriver.ru, rambler.ru,
+                tns-counter.ru, mail.ru/counter, comscore.com, bluekai.com, demdex.net,
+                krxd.net, rlcdn.com, id5-sync.com, liveramp.com, tapad.com, neustar.biz,
+                ezoic.com, mediavine.com, adthrive.com, raptive.com, publift.com, sovrn.com,
+                conversantmedia.com, verizonmedia.com, ads.yahoo.com, gemini.yahoo.com,
+                adform.net, adkernel.com, admixer.net, adroll.com, adsafeprotected.com,
+                adskeeper.com, adsrvr.org, adtech.com, advertising.com, adzerk.net, amoad.com,
+                applovin.com, bidswitch.net, bidtellect.com, bkrtx.com, blismedia.com, casalemedia.com,
+                chartbeat.com, clicktale.net, clmbtech.com, cnvrsions.net, contentabc.com, conviva.com,
+                crsspxl.com, ctnsnet.com, dataxu.com, doubleverify.com, driveniq.com, dsp.io,
+                dyntrk.com, effectivemeasure.net, emxdigital.com, engageya.com, exelator.com,
+                eyeota.net, flashtalking.com, flurry.com, fwmrm.net, getintent.com, glispa.com,
+                gmossp-sp.jp, go-mpulse.net, goadservices.com, hadronid.net, hbx.com, imrworldwide.com,
+                intentiq.com, intergi.com, invitemedia.com, jivox.com, justpremium.com, kargo.com,
+                keywee.co, krushmedia.com, leadbolt.com, liveintent.com, lkqd.net, loopme.me,
+                m6r.eu, mathtag.com, media.net, mediamath.com, merkleinc.com, metadsp.co.uk,
+                mfadsrvr.com, microad.jp, moatads.com, mookie1.com, mythings.com, nativo.net,
+                netseer.com, newrelic.com, nexac.com, nxtck.com, omtrdc.net, onaudience.com,
+                openxenterprise.com, optimatic.com, optimizely.com, out-there-media.com, owneriq.net,
+                parrable.com, peer39.net, perfectaudience.com, permutive.com, plista.com, pocketcents.com,
+                postrelease.com, prebid.org, proofpoint.com, pubmatic.net, pulsepoint.com, qbaka.net,
+                quantcount.com, rhythmone.com, richaudience.com, rubiconproject.net, sail-horizon.com,
+                sascdn.com, saymedia.com, scanscout.com, segment.com, serving-sys.com, sessionm.com,
+                sharethis.com, simpli.fi, skimresources.com, skupenet.com, smartclip.net, smrtb.com,
+                snplow.net, sonobi.com, sophus3.com, speedcurve.com, spongecell.com, spot.im,
+                springserve.com, stackadapt.com, steepto.com, stickyadstv.com, storygize.net,
+                streamrail.com, sundaysky.com, supersonicads.com, tagcommander.com, tappx.com,
+                targetspot.com, tealiumiq.com, technorati.com, thedevband.com, the-ozone-project.com,
+                tidaltv.com, tremorhub.com, tribalfusion.com, triggit.com, tru.am, truoptik.com,
+                turn.com, twiago.com, uberads.com, udmserve.net, unrulymedia.com, upsight-api.com,
+                urbanairship.com, usemax.de, utarget.ru, valueclick.net, vdx.tv, verve.com,
+                videologygroup.com, vidoomy.com, visiblemeasures.com, visualrevenue.com, vrtcal.com,
+                vungle.com, w55c.net, weborama.fr, widespace.com, wistia.com, wunderloop.net,
+                xapads.com, yandex.ru/ads, yandex.ru/metrika, yieldbroker.com, yieldify.com,
+                yieldlab.net, yldbt.com, yoc.com, yumenetworks.com, zedo.com, zergnet.com, zucks.net
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                Как это работает
+            </h2>
+            <p>Расширение использует трехуровневую систему блокировки:</p>
+            <ul>
+                <li><strong>Сетевой уровень:</strong> Перехватывает HTTP-запросы к рекламным доменам до их загрузки</li>
+                <li><strong>CSS-уровень:</strong> Скрывает рекламные элементы через стили с !important</li>
+                <li><strong>JavaScript-уровень:</strong> MutationObserver отслеживает и удаляет динамически загружаемую рекламу</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                Поддерживаемые браузеры
+            </h2>
+            <ul>
+                <li>Google Chrome (Manifest V3)</li>
+                <li>Mozilla Firefox (Manifest V2)</li>
+                <li>Opera (Manifest V2)</li>
+                <li>Microsoft Edge (Manifest V3)</li>
+                <li>Яндекс Браузер (Manifest V3)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                Вклад в проект
+            </h2>
+            <p>Если вы нашли рекламу, которую расширение не блокирует, или хотите предложить улучшения:</p>
+            <ul>
+                <!-- ИЗМЕНЕННЫЙ ТЕКСТ И ССЫЛКА -->
+                <li>Предложить идею или сообщить о проблеме на <a href="https://github.com/demon64k/GarticPhoneAdBlocker/issues" target="_blank">GitHub Issues</a></li>
+                <li>Отправить Pull Request с улучшениями кода</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Версия 2.0 • by <a href="https://github.com/demon64k">demon64k</a></p>
+            <div class="footer-links">
+                <a href="https://github.com/demon64k/GarticPhoneAdBlocker">GitHub</a>
+                <a href="https://t.me/Dimoska_studio">Telegram</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

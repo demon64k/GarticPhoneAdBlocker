@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GarticPhone AdBlocker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: rgba(26, 27, 46, 0.95);
+            --bg-secondary: rgba(36, 37, 58, 0.8);
+            --bg-card: rgba(45, 46, 69, 0.7);
+            --text-primary: #ffffff;
+            --text-secondary: #b8bdd4;
+            --accent-pink: #f38ba8;
+            --accent-yellow: #f9e2af;
+            --accent-green: #a6e3a1;
+            --accent-blue: #7aa2f7;
+            --btn-tg: rgba(42, 171, 238, 0.95);
+            --btn-gh: rgba(45, 46, 69, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 340px;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.95) 0%, rgba(255, 217, 61, 0.95) 100%);
+            padding: 28px 24px 24px;
+            text-align: center;
+            color: #1a1b2e;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .header h1 svg { width: 28px; height: 28px; stroke: #1a1b2e; }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #1a1b2e;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 10px 18px;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .status-dot {
+            width: 10px; height: 10px; background-color: #00b894; border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        .status-dot.paused { background-color: #fdcb6e; animation: none; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(0, 184, 148, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0); }
+        }
+
+        .content { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+        .description { font-size: 14px; line-height: 1.6; text-align: center; color: var(--text-secondary); font-weight: 600; }
+        .description strong { color: var(--accent-yellow); font-weight: 800; }
+
+        .counter-box {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        .counter-box:hover {
+            transform: translateY(-2px);
+            border-color: rgba(166, 227, 161, 0.4);
+            box-shadow: 0 8px 24px rgba(166, 227, 161, 0.2);
+        }
+
+        .counter-label {
+            font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .counter-label svg { width: 14px; height: 14px; stroke: var(--accent-green); }
+        .counter-value {
+            font-size: 34px; font-weight: 900; color: var(--accent-green);
+            font-family: 'Nunito', monospace; text-shadow: 0 2px 8px rgba(166, 227, 161, 0.3); letter-spacing: -1px;
+        }
+
+        .stats { display: flex; justify-content: center; gap: 12px; }
+        .stat-pill {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 10px 16px; border-radius: 16px; font-size: 12px; font-weight: 800;
+            color: var(--accent-pink); border: 1px solid rgba(243, 139, 168, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); display: flex; align-items: center; gap: 6px;
+        }
+        .stat-pill svg { width: 14px; height: 14px; stroke: var(--accent-pink); }
+
+        .links { display: flex; flex-direction: column; gap: 10px; }
+        .link-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            text-decoration: none; padding: 14px; border-radius: 14px; font-weight: 800; font-size: 14px;
+            transition: all 0.3s ease; border: none; cursor: pointer;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--text-primary);
+        }
+        .link-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
+        .link-btn.tg { background: var(--btn-tg); box-shadow: 0 4px 16px rgba(42, 171, 238, 0.3); }
+        .link-btn.gh { background: var(--btn-gh); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.15); }
+        .link-btn.report { background: rgba(243, 139, 168, 0.15); color: var(--accent-pink); border: 1px solid rgba(243, 139, 168, 0.4); }
+        .link-btn.info { background: rgba(122, 162, 247, 0.15); color: var(--accent-blue); border: 1px solid rgba(122, 162, 247, 0.4); }
+        .link-btn:hover { transform: translateY(-2px); filter: brightness(1.15); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); }
+        .link-btn:active { transform: translateY(-1px); }
+
+        .star-link {
+            display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; margin-top: 4px;
+            font-size: 13px; color: var(--accent-yellow); text-decoration: none; font-weight: 800;
+            transition: all 0.3s; background: rgba(249, 226, 175, 0.1); border-radius: 12px;
+            border: 1px solid rgba(249, 226, 175, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
+        .star-link:hover { background: rgba(249, 226, 175, 0.15); transform: translateY(-2px); }
+        .star-link svg { width: 16px; height: 16px; stroke: var(--accent-yellow); fill: var(--accent-yellow); }
+
+        .dev-profile-link {
+            display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px;
+            font-size: 12px; color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; font-weight: 600;
+        }
+        .dev-profile-link:hover { color: var(--accent-yellow); }
+        .dev-profile-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+
+        .toggle-section {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px; padding: 16px 20px; border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); display: flex; align-items: center;
+            justify-content: space-between; cursor: pointer; transition: all 0.3s;
+        }
+        .toggle-section:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.2); }
+        .toggle-label { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; color: var(--text-primary); }
+        .toggle-label svg { width: 18px; height: 18px; stroke: var(--accent-blue); }
+
+        .toggle-switch {
+            width: 44px; height: 24px; background-color: #00b894; border-radius: 12px;
+            position: relative; transition: background-color 0.3s; flex-shrink: 0;
+        }
+        .toggle-switch::after {
+            content: ''; position: absolute; width: 20px; height: 20px; background-color: white;
+            border-radius: 50%; top: 2px; left: 2px; transition: transform 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.paused { background-color: #fdcb6e; }
+        .toggle-switch.paused::after { transform: translateX(20px); }
+
+        .footer {
+            text-align: center; font-size: 11px; color: var(--text-secondary); padding: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-secondary);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-weight: 600;
+        }
+        .footer span { color: var(--accent-pink); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>
+            <!-- Иконка ПЕЧЕНЬКИ 🍪 -->
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+                <path d="M8.5 8.5v.01"></path>
+                <path d="M16 15.5v.01"></path>
+                <path d="M12 12v.01"></path>
+            </svg>
+            GarticPhone AdBlocker
+        </h1>
+        <div class="status-badge">
+            <div class="status-dot" id="statusDot"></div>
+            <span id="statusText">Защита активна</span>
+        </div>
+    </div>
+    
+    <div class="content">
+        <p class="description">
+            Наслаждайтесь игрой без назойливой рекламы! Расширение блокирует баннеры, видео и трекеры на <strong>garticphone.com</strong> и всех его региональных версиях.
+        </p>
+        
+        <div class="counter-box" id="counterBox">
+            <div class="counter-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                Заблокировано запросов
+            </div>
+            <div class="counter-value" id="blockCounter">0</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                250+ доменов
+            </div>
+            <div class="stat-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                    <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                </svg>
+                Manifest V2/V3
+            </div>
+        </div>
+        
+        <div class="links">
+            <a href="https://t.me/Dimoska_studio" target="_blank" class="link-btn tg">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+                </svg>
+                Telegram разработчика
+            </a>
+            <a href="https://github.com/demon64k/GarticPhoneAdBlocker" target="_blank" class="link-btn gh">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                </svg>
+                GitHub репозиторий
+            </a>
+            <!-- ИЗМЕНЕНА ССЫЛКА НА GITHUB ISSUES -->
+            <a href="https://github.com/demon64k/GarticPhoneAdBlocker/issues" target="_blank" class="link-btn report">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                Сообщить о рекламе
+            </a>
+            <a href="info.html" target="_blank" class="link-btn info">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                О расширении
+            </a>
+            
+            <a href="https://github.com/demon64k/GarticPhoneAdBlocker" target="_blank" class="star-link">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                Поставь звезду проекту, если он помог!
+            </a>
+
+            <a href="https://github.com/demon64k" target="_blank" class="dev-profile-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                Профиль разработчика: demon64k
+            </a>
+        </div>
+
+        <div class="toggle-section" id="toggleBtn">
+            <div class="toggle-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+                </svg>
+                <span id="toggleStatusText">Защита включена</span>
+            </div>
+            <div class="toggle-switch" id="toggleSwitch"></div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Версия 2.0 • by demon64k
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
